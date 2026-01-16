@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('document_versions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('document_id')->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('version_no');
+            $table->longText('content_html')->nullable();
+            $table->longText('content_json')->nullable();
+            $table->timestamp('saved_at');
             $table->timestamps();
+
+            $table->unique(['document_id', 'version_no']);
         });
     }
 

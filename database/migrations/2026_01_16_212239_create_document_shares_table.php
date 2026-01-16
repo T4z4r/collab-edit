@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('document_shares', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('document_id')->constrained()->cascadeOnDelete();
+            $table->string('token', 80)->unique();
+            $table->enum('permission', ['view', 'edit'])->default('edit');
+            $table->timestamp('expires_at')->nullable();
+            $table->string('password_hash')->nullable();
             $table->timestamps();
         });
     }

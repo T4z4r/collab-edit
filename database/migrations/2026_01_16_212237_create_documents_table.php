@@ -9,13 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('documents', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+    public function up(): void {
+    Schema::create('documents', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('owner_id')->constrained('users')->cascadeOnDelete();
+        $table->string('title');
+        $table->enum('type', ['doc', 'sheet']); // doc=word-like, sheet=excel-like
+        $table->string('original_file_path')->nullable(); // optional
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.
